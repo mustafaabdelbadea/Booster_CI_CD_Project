@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag django_ci_cd:$(date +%s)
+      run: docker build . --file Dockerfile --tag django_ci_cd
     
     - name: Log in to Docker Hub
       uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
@@ -22,13 +22,13 @@ jobs:
       id: meta
       uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
       with:
-        images: mustafaabdelbadea/django
+        images: mustafaabdelbadea/django_ci_cd
 
     - name: Build and push Docker image
       uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
       with:
         context: .
-        file: /usr/bin/docker/Dockerfile
+        file: ./Dockerfile
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
